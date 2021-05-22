@@ -23,9 +23,7 @@ module ToyRubot
       'WEST' => [-1, 0]
     }
 
-    PLACE_PATTERN = /PLACE (?<x>\d+),(?<y>\d+),(?<direction>{NORTH|SOUTH|EAST|WEST})/
-
-    RobotPosition = Struct.new(:coords, :direction)
+    PLACE_PATTERN = /PLACE (?<x>\d+),(?<y>\d+),(?<direction>NORTH|SOUTH|EAST|WEST)/
 
     def initialize(instruction, table)
       (name, command) = instruction.split(': ')

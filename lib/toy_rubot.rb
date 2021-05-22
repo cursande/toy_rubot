@@ -3,6 +3,9 @@ require "toy_rubot/instruction"
 require "toy_rubot/table"
 
 module ToyRubot
+
+  RobotPosition = Struct.new(:coords, :direction)
+
   def self.run(path)
     instructions = File.readlines(path)
 
