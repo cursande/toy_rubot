@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+require 'toy_rubot'
+
+if ARGV.length > 1
+  puts "too many arguments provided"
+  exit
+end
+
+path = ARGV[0]
+
+ToyRubot.run(path)
