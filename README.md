@@ -1,39 +1,32 @@
 # ToyRubot
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/toy_rubot`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is an implementation of the Toy Robot challenge in Ruby. 
+It comes with the added condition that there can be multiple named robots on the board at a given time.
 
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'toy_rubot'
+## Running the simulation
+``` shell
+bundle exec bin/toy_rubot example_input.txt
 ```
 
-And then execute:
+## Testing
+from the project root, run the following:
+``` shell
+bundle exec rspec
+```
 
-    $ bundle
+## Approach
 
-Or install it yourself as:
+- Opted to use small, simple objects given the constraints of the problem.
 
-    $ gem install toy_rubot
+- State is centralised on table objects. Based on the robots on the table at a given time, the table can determine if it is valid or not (no overlapping robots, none have crossed the edge of the table). The trade-off for this simplicity is that we end up checking robots that have not moved between valid commands. For our case this is not an issue, but as a general approach it would be problematic in performance-sensitive contexts.
 
-## Usage
+- All that's needed to return a new state of the table, is the current table along with the next instruction to be run
 
-TODO: Write usage instructions here
+- Decided against modelling robots as discrete message receivers as there seemed to be minimal clarity or benefit from it. Instead they are modelled as key-value pairs (name => position).
 
-## Development
+- The main test ensures it works end-to-end with a given file, while permutations of individual commands can be tested in the unit tests.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+- The intruction object is intended to capture the name and command together.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/cursande/toy_rubot.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+- With more time, there would be value in refactoring instructions, and how they interact with the table. Given that the logic to validate the table lives outside instructions, the coupling
+between the table and the instruction is unecessary. It would be better to separate these abstractions properly so that instructions only deal with the robot the new command applies to, and the action it needs to take.
